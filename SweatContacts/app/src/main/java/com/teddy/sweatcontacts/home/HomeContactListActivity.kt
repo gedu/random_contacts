@@ -11,8 +11,11 @@ import com.teddy.sweatcontacts.common.view.Status
 import com.teddy.sweatcontacts.common.view.bindView
 import com.teddy.sweatcontacts.common.widget.InfiniteRecyclerView
 import com.teddy.sweatcontacts.detail.DetailContactActivity
+import com.teddy.sweatcontacts.detail.DetailContactFragment
 import com.teddy.sweatcontacts.model.Contact
 import org.koin.android.viewmodel.ext.android.viewModel
+
+private const val TAG = "HomeContactListActivity"
 
 class HomeContactListActivity : AppCompatActivity(), HomeContactAdapter.ContactListener {
 
@@ -60,6 +63,16 @@ class HomeContactListActivity : AppCompatActivity(), HomeContactAdapter.ContactL
     }
 
     override fun onContactClicked(contact: Contact) {
-        startActivity(DetailContactActivity.newIntent(this, contact))
+        if (resources.getBoolean(R.bool.dual_panel)) {
+            val fragment = DetailContactFragment.newInstance(contact)
+
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.contact_detail_container, fragment, TAG)
+                .commit()
+
+        } else {
+            startActivity(DetailContactActivity.newIntent(this, contact))
+        }
     }
 }
