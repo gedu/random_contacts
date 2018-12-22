@@ -27,6 +27,7 @@ private const val TAG = "HomeContactListActivity"
 class HomeContactListActivity : AppCompatActivity(), ContactListener {
 
     private val contactSearchInput by bindView<SearchView>(R.id.contact_search_input)
+    private val contactLoading by bindView<View>(R.id.contact_progress)
     private val contactSearchResult by bindView<RecyclerView>(R.id.contact_search_result_list)
     private val contactSearchBg by bindView<View>(R.id.contact_search_background)
     private val contactList by bindView<InfiniteRecyclerView>(R.id.contact_list)
@@ -74,25 +75,19 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
             }
 
         })
-//        contactSearchInput.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {}
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                viewModel.doContactSearchWith(s.toString())
-//            }
-//
-//        })
     }
 
     private fun handleContacts(contactResource: Resource<List<Contact>>) {
         when(contactResource.status) {
-            Status.LOADING -> Toast.makeText(this, "Loading", Toast.LENGTH_LONG).show()
+            Status.LOADING -> contactLoading.visibility = View.VISIBLE
             Status.SUCCESS -> {
+                contactLoading.visibility = View.GONE
                 contactsAdapter.setContacts(contactResource.data ?: listOf())
             }
-            Status.ERROR -> Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show()
+            Status.ERROR -> {
+                contactLoading.visibility = View.GONE
+                Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -130,6 +125,10 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
     }
 
     override fun onContactClicked(contact: Contact) {
+        hideSearchResult()
+        contactSearchInput.setQuery("", false)
+        contactSearchInput.clearFocus()
+
         if (resources.getBoolean(R.bool.dual_panel)) {
             val fragment = DetailContactFragment.newInstance(contact)
 
