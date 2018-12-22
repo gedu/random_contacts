@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="divider">#ababab</color>
+    <color name="transparent_black">#80000000</color>
 </resources>

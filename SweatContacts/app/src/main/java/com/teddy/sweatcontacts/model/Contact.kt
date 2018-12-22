@@ -15,6 +15,9 @@ data class Contact(
     val phone: String,
     val picture: ContactPicture
 ) : Parcelable {
+
+    val fullName get() = "${name.first} ${name.last}"
+
     fun getGenderRes() = if (gender == FEMALE) R.drawable.ic_female_gender else R.drawable.ic_male_gender
 }
 

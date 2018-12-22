@@ -14,11 +14,11 @@ import com.teddy.sweatcontacts.common.widget.VIEW_CONTENT_TYPE
 import com.teddy.sweatcontacts.common.widget.VIEW_LOADING_TYPE
 import com.teddy.sweatcontacts.model.Contact
 
-class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.Adapter<BaseViewHolder>() {
+interface ContactListener {
+    fun onContactClicked(contact: Contact)
+}
 
-    interface ContactListener {
-        fun onContactClicked(contact: Contact)
-    }
+class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var contacts: MutableList<Contact?> = mutableListOf()
 
@@ -73,7 +73,7 @@ class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.A
         @SuppressLint("SetTextI18n")
         fun bind(contact: Contact) {
             contactImage.load(contact.picture.medium)
-            contactTitle.text = "${contact.name.first} ${contact.name.last}"
+            contactTitle.text = contact.fullName
         }
     }
 

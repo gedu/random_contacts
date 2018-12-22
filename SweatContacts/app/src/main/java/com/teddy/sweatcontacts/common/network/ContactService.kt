@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface ContactService {
 
-    @GET("/api/")
+    @GET("/api/?exc=login")
     fun getContacts(@Query("results") resultAmount: Int,
                     @Query("seed") searchSeed: String,
                     @Query("page") pageNum: Int) : Deferred<ApiResponse<ResultContactResponse>>
