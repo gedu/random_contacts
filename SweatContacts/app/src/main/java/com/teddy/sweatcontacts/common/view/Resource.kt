@@ -5,8 +5,8 @@ package com.teddy.sweatcontacts.common.view
  * */
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {
-        fun <T> success(data: T?): Resource<T> {
-            return Resource(Status.SUCCESS, data, null)
+        fun <T> success(status: Status, data: T?): Resource<T> {
+            return Resource(status, data, null)
         }
 
         fun <T> error(msg: String, data: T?): Resource<T> {
@@ -16,9 +16,13 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
         fun <T> loading(data: T?): Resource<T> {
             return Resource(Status.LOADING, data, null)
         }
+
+        fun <T> loadingMore(data: T?): Resource<T> {
+            return Resource(Status.LOADING_MORE, data, null)
+        }
     }
 }
 
 enum class Status {
-    LOADING, SUCCESS, ERROR
+    LOADING, LOADING_MORE, SUCCESS, SUCCESS_MORE, ERROR
 }

@@ -34,6 +34,10 @@ class HomeContactViewModel(
         }
     }
 
+    fun fetchMoreContacts() {
+        launch(context = coroutineContext) { repository.getMoreContacts() }
+    }
+
     fun fetchFavorites() {
         _favorites.value = repository.fetchFavorites()
     }

@@ -93,6 +93,12 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
     private fun handleContacts(contactResource: Resource<List<Contact>>) {
         when(contactResource.status) {
             Status.LOADING -> contactLoading.visibility = View.VISIBLE
+            Status.LOADING_MORE -> contactsAdapter.addLoading()
+            Status.SUCCESS_MORE -> {
+                contactsAdapter.removeLoading()
+                contactList.loadingFinished()
+                contactsAdapter.addContacts(contactResource.data ?: listOf())
+            }
             Status.SUCCESS -> {
                 contactLoading.visibility = View.GONE
                 contactsAdapter.setContacts(contactResource.data ?: listOf())
@@ -124,7 +130,9 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
     }
 
     private fun handleMoreContactLoading(isLoading: Boolean) {
-
+        if (isLoading) {
+            viewModel.fetchMoreContacts()
+        }
     }
 
     override fun onBackPressed() {

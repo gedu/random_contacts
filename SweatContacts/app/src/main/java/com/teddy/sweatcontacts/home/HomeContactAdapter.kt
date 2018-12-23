@@ -43,6 +43,12 @@ class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.A
         notifyDataSetChanged()
     }
 
+    fun addContacts(newContacts: List<Contact>) {
+        val startSize = contacts.size
+        contacts.addAll(newContacts)
+        notifyItemRangeInserted(startSize, newContacts.size)
+    }
+
     fun addLoading() {
         contacts.addAtEnd(null)
         notifyItemInserted(contacts.lastIndex)
