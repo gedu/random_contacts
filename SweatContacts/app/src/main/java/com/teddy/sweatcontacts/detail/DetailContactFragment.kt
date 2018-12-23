@@ -4,11 +4,14 @@ package com.teddy.sweatcontacts.detail
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.teddy.sweatcontacts.R
@@ -29,6 +32,7 @@ class DetailContactFragment : Fragment() {
     private val contactEmail by bindView<TextView>(R.id.contact_email)
     private val contactPhoneNumber by bindView<TextView>(R.id.contact_phone)
     private val contactFavoriteBtn by bindView<ClickableLottieView>(R.id.contact_favorite_btn)
+    private val contactSavePhone by bindView<Button>(R.id.contact_save_phone)
 
     private val viewModel by viewModel<DetailContactViewModel>()
 
@@ -96,6 +100,18 @@ class DetailContactFragment : Fragment() {
         }
 
         contactFavoriteBtn.setOnClickListener { viewModel.updateFavoriteState() }
+
+        contactSavePhone.setOnClickListener { savePhone() }
+    }
+
+    private fun savePhone() {
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            type = ContactsContract.Contacts.CONTENT_TYPE
+            putExtra(ContactsContract.Intents.Insert.NAME, contactFullName.text)
+            putExtra(ContactsContract.Intents.Insert.PHONE, contactPhoneNumber.text)
+        }
+
+        startActivity(intent)
     }
 
     private fun <T> LiveData<T>.listen(l: (r: T) -> Unit) {

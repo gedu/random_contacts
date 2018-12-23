@@ -28,7 +28,7 @@ class HomeContactViewModel(
     }
 
     fun doContactSearchWith(query: String) {
-        if (contacts.value?.status == Status.SUCCESS) {
+        if (contacts.value?.status == Status.SUCCESS || contacts.value?.status == Status.SUCCESS_MORE) {
             val matchedContacts = contacts.value?.data?.filter { it.fullName.contains(query, true) }
             _contactSearch.value = matchedContacts
         }
