@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
 import com.teddy.sweatcontacts.R
 import com.teddy.sweatcontacts.common.view.Resource
 import com.teddy.sweatcontacts.common.view.Status
@@ -33,6 +35,8 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
     private val favoriteContainer by bindView<CardView>(R.id.favorite_container)
     private val contactSearchBg by bindView<View>(R.id.contact_search_background)
     private val contactList by bindView<InfiniteRecyclerView>(R.id.contact_list)
+    private val emptyContactListContainer by bindView<LinearLayout>(R.id.empty_list_container)
+    private val emptyContactListAnim by bindView<LottieAnimationView>(R.id.empty_list_anim)
 
     private val viewModel by viewModel<HomeContactViewModel>()
 
@@ -97,15 +101,29 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
             Status.SUCCESS_MORE -> {
                 contactsAdapter.removeLoading()
                 contactList.loadingFinished()
+                emptyContactListContainer.visibility = View.GONE
                 contactsAdapter.addContacts(contactResource.data ?: listOf())
             }
             Status.SUCCESS -> {
                 contactLoading.visibility = View.GONE
+                emptyContactListContainer.visibility = View.GONE
                 contactsAdapter.setContacts(contactResource.data ?: listOf())
+                if (resources.getBoolean(R.bool.dual_panel)) {
+                    contactResource.data?.run {
+                        onContactClicked(this[0])
+                    }
+                }
             }
             Status.ERROR -> {
                 contactLoading.visibility = View.GONE
-                Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show()
+                contactList.loadingFinished()
+                contactsAdapter.removeLoading()
+                if (contactsAdapter.itemCount == 0) {
+                    emptyContactListContainer.visibility = View.VISIBLE
+                    emptyContactListAnim.playAnimation()
+                } else {
+                    Toast.makeText(this, R.string.contacts_fetching_error_msg, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

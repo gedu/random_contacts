@@ -115,6 +115,37 @@
 
     </android.support.v7.widget.CardView>
 
+    <LinearLayout
+            android:id="@+id/empty_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintWidth_percent="@fraction/contact_list_percent_width"
+            app:layout_constraintTop_toBottomOf="@+id/favorite_barrier"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/empty_list_anim"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:gravity="center"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/empty_list"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/something_wrong_empty_list_error_title"/>
+
+
+    </LinearLayout>
+
     <android.support.constraint.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

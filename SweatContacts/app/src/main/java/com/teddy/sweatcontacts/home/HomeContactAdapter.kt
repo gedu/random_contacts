@@ -55,8 +55,10 @@ class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.A
     }
 
     fun removeLoading() {
-        contacts.removeLast()
-        notifyItemRemoved(contacts.size)
+        if (contacts.lastIndex > 0 && contacts[contacts.lastIndex] == null) {
+            contacts.removeLast()
+            notifyItemRemoved(contacts.size)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
