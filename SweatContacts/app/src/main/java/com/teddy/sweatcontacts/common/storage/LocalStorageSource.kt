@@ -9,9 +9,12 @@ private const val EMAIL_COLUMN = "email"
 
 class LocalStorageSource {
 
-    fun addToFavorite(contactEntity: ContactEntity) {
-        Realm.getDefaultInstance().use { realm ->
-            realm.executeTransaction { it.copyToRealmOrUpdate(contactEntity) }
+    fun addToFavorite(contactEntity: ContactEntity): List<ContactEntity> {
+        return Realm.getDefaultInstance().use { realm ->
+            realm.executeTransaction {
+                it.copyToRealmOrUpdate(contactEntity)
+            }
+            fetchFavoriteContact()
         }
     }
 
@@ -22,10 +25,11 @@ class LocalStorageSource {
         }
     }
 
-    fun removedFromFavorite(email: String) {
-        Realm.getDefaultInstance().use {
+    fun removedFromFavorite(email: String): List<ContactEntity> {
+        return Realm.getDefaultInstance().use {
             val contactToRemove = it.where<ContactEntity>().equalTo(EMAIL_COLUMN, email).findFirst()
             it.executeTransaction { contactToRemove?.deleteFromRealm() }
+            fetchFavoriteContact()
         }
     }
 

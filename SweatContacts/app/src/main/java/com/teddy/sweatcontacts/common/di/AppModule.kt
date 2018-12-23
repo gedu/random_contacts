@@ -1,5 +1,6 @@
 package com.teddy.sweatcontacts.common.di
 
+import com.teddy.sweatcontacts.common.base.FavoriteManager
 import com.teddy.sweatcontacts.common.network.ContactRemoteSource
 import com.teddy.sweatcontacts.common.network.PaginationManager
 import com.teddy.sweatcontacts.common.storage.LocalStorageSource
@@ -18,11 +19,13 @@ private val appModule = module {
     factory { LocalStorageSource() }
 
     single { PaginationManager() }
+
+    single { FavoriteManager(get()) }
 }
 
 private val homeModule = module {
 
-    viewModel { HomeContactViewModel(get(), Dispatchers.Main) }
+    viewModel { HomeContactViewModel(get(), get(), Dispatchers.Main) }
 
     factory { HomeContactRepository(get(), get(), get()) }
 
@@ -30,7 +33,7 @@ private val homeModule = module {
 
 private val detailModule = module {
 
-    viewModel { DetailContactViewModel(get(), Dispatchers.Main) }
+    viewModel { DetailContactViewModel(get(), get(), Dispatchers.Main) }
 
     factory { DetailContractRepository(get()) }
 }

@@ -89,7 +89,9 @@ class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.A
 open class BaseViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
 fun <E> MutableList<E>.removeLast() {
-    this.removeAt(this.lastIndex)
+    if (this.isNotEmpty()) {
+        this.removeAt(this.lastIndex)
+    }
 }
 
 fun <E> MutableList<E>.addAtEnd(item: E) {

@@ -3,6 +3,7 @@ package com.teddy.sweatcontacts.home
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.teddy.sweatcontacts.common.base.BaseViewModel
+import com.teddy.sweatcontacts.common.base.FavoriteManager
 import com.teddy.sweatcontacts.common.view.Status
 import com.teddy.sweatcontacts.model.Contact
 import kotlinx.coroutines.launch
@@ -10,6 +11,7 @@ import kotlin.coroutines.CoroutineContext
 
 class HomeContactViewModel(
     private val repository: HomeContactRepository,
+    private val favoriteManager: FavoriteManager,
     mainDispatcher: CoroutineContext
 ) : BaseViewModel(mainDispatcher) {
 
@@ -17,9 +19,7 @@ class HomeContactViewModel(
     val contactSearch
         get() = _contactSearch as LiveData<List<Contact>>
 
-    private val _favorites = MutableLiveData<List<Contact>>()
-    val favorites
-        get() = _favorites as LiveData<List<Contact>>
+    val favorites get() = favoriteManager.favorites
 
     val contacts = repository.listenResult
 
@@ -39,6 +39,6 @@ class HomeContactViewModel(
     }
 
     fun fetchFavorites() {
-        _favorites.value = repository.fetchFavorites()
+        favoriteManager.fetchFavorites()
     }
 }

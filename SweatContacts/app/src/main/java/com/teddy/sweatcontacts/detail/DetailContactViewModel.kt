@@ -4,11 +4,13 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import com.teddy.sweatcontacts.common.base.BaseViewModel
+import com.teddy.sweatcontacts.common.base.FavoriteManager
 import com.teddy.sweatcontacts.model.Contact
 import kotlin.coroutines.CoroutineContext
 
 class DetailContactViewModel(
     private val repository: DetailContractRepository,
+    private val favoriteManager: FavoriteManager,
     mainDispatcher: CoroutineContext
 ) : BaseViewModel(mainDispatcher) {
 
@@ -27,7 +29,7 @@ class DetailContactViewModel(
     fun updateFavoriteState() {
         _currentContact.value?.apply {
             favorite = !this.favorite
-            if (favorite) repository.saveFavorite(this) else repository.removeFavorite(this)
+            favoriteManager.updateFavorite(this)
             _currentContact.value = this
         }
     }

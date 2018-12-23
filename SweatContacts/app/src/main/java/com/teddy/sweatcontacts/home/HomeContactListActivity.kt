@@ -50,7 +50,7 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
     }
 
     private fun setupContactRecycler() {
-        contactList.layoutManager = GridLayoutManager(this, 3)
+        contactList.layoutManager = GridLayoutManager(this, resources.getInteger(R.integer.contacts_column_amount))
         contactList.adapter = contactsAdapter
 
         contactSearchResult.layoutManager = LinearLayoutManager(this)
