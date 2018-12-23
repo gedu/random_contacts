@@ -3,12 +3,11 @@ package com.teddy.sweatcontacts.home
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
+import android.support.v7.widget.*
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import com.teddy.sweatcontacts.R
 import com.teddy.sweatcontacts.common.view.Resource
@@ -22,6 +21,7 @@ import com.teddy.sweatcontacts.home.search.EmptyContactSearchAdapter
 import com.teddy.sweatcontacts.model.Contact
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 private const val TAG = "HomeContactListActivity"
 
 class HomeContactListActivity : AppCompatActivity(), ContactListener {
@@ -29,12 +29,15 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
     private val contactSearchInput by bindView<SearchView>(R.id.contact_search_input)
     private val contactLoading by bindView<View>(R.id.contact_progress)
     private val contactSearchResult by bindView<RecyclerView>(R.id.contact_search_result_list)
+    private val favoriteList by bindView<RecyclerView>(R.id.favorite_list)
+    private val favoriteContainer by bindView<CardView>(R.id.favorite_container)
     private val contactSearchBg by bindView<View>(R.id.contact_search_background)
     private val contactList by bindView<InfiniteRecyclerView>(R.id.contact_list)
 
     private val viewModel by viewModel<HomeContactViewModel>()
 
     private val contactsAdapter = HomeContactAdapter(this)
+    private val favoriteAdapter = FavoriteAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +54,17 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
         contactList.adapter = contactsAdapter
 
         contactSearchResult.layoutManager = LinearLayoutManager(this)
+
+        favoriteList.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        favoriteList.adapter = favoriteAdapter
     }
 
     private fun setupListeners() {
         viewModel.contacts.listen { handleContacts(it) }
 
         viewModel.contactSearch.listen { handleContactSearch(it) }
+
+        viewModel.favorites.listen { handleFavorites(it) }
 
         contactList.reachBottom.listen { handleMoreContactLoading(it) }
 
@@ -75,6 +83,11 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
             }
 
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchFavorites()
     }
 
     private fun handleContacts(contactResource: Resource<List<Contact>>) {
@@ -98,6 +111,16 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
             contactSearchResult.adapter = ContactSearchAdapter(search, this)
         }
         showSearchResult()
+    }
+
+    private fun handleFavorites(favorites: List<Contact>) {
+        if (favorites.isEmpty()) {
+            favoriteContainer.visibility = View.GONE
+        } else {
+            favoriteContainer.visibility = View.VISIBLE
+            favoriteAdapter.setFavorites(favorites)
+        }
+
     }
 
     private fun handleMoreContactLoading(isLoading: Boolean) {
@@ -124,7 +147,7 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
         return true
     }
 
-    override fun onContactClicked(contact: Contact) {
+    override fun onContactClicked(contact: Contact, imageView: ImageView?) {
         hideSearchResult()
         contactSearchInput.setQuery("", false)
         contactSearchInput.clearFocus()
@@ -138,7 +161,18 @@ class HomeContactListActivity : AppCompatActivity(), ContactListener {
                 .commit()
 
         } else {
-            startActivity(DetailContactActivity.newIntent(this, contact))
+
+            val detailIntent = DetailContactActivity.newIntent(this, contact)
+            if (imageView != null) {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this,
+                    imageView as View,
+                    getString(R.string.contact_img_share_tag)
+                )
+                startActivity(detailIntent, options.toBundle())
+            } else {
+                startActivity(detailIntent)
+            }
         }
     }
 

@@ -2,8 +2,8 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
         tools:context=".detail.DetailContactFragment">
 
     <android.support.v7.widget.CardView
@@ -24,6 +24,7 @@
                     android:id="@+id/contact_image"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:transitionName="@string/contact_img_share_tag"
                     android:contentDescription="@null"
                     android:layout_height="match_parent"/>
 
@@ -63,6 +64,19 @@
                         android:layout_height="wrap_content"
                         tools:text="28"
                         android:gravity="center_vertical"/>
+
+                <com.teddy.sweatcontacts.common.widget.ClickableLottieView
+                        android:id="@+id/contact_favorite_btn"
+                        android:layout_width="58dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginEnd="-8dp"
+                        android:layout_marginTop="8dp"
+                        app:lottie_rawRes="@raw/like"/>
+
 
             </LinearLayout>
         </LinearLayout>

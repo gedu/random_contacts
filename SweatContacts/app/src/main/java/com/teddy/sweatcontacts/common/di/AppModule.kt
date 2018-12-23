@@ -1,6 +1,9 @@
 package com.teddy.sweatcontacts.common.di
 
 import com.teddy.sweatcontacts.common.network.ContactRemoteSource
+import com.teddy.sweatcontacts.common.storage.LocalStorageSource
+import com.teddy.sweatcontacts.detail.DetailContactViewModel
+import com.teddy.sweatcontacts.detail.DetailContractRepository
 import com.teddy.sweatcontacts.home.HomeContactRepository
 import com.teddy.sweatcontacts.home.HomeContactViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,14 +14,22 @@ private val appModule = module {
 
     factory { ContactRemoteSource(get()) }
 
+    factory { LocalStorageSource() }
 }
 
 private val homeModule = module {
 
     viewModel { HomeContactViewModel(get(), Dispatchers.Main) }
 
-    factory { HomeContactRepository(get()) }
+    factory { HomeContactRepository(get(), get()) }
 
 }
 
-val mainAppModule = listOf(appModule, homeModule)
+private val detailModule = module {
+
+    viewModel { DetailContactViewModel(get(), Dispatchers.Main) }
+
+    factory { DetailContractRepository(get()) }
+}
+
+val mainAppModule = listOf(appModule, homeModule, detailModule)

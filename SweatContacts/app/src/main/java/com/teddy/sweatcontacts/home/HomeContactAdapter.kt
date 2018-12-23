@@ -15,7 +15,7 @@ import com.teddy.sweatcontacts.common.widget.VIEW_LOADING_TYPE
 import com.teddy.sweatcontacts.model.Contact
 
 interface ContactListener {
-    fun onContactClicked(contact: Contact)
+    fun onContactClicked(contact: Contact, imageView: ImageView? = null)
 }
 
 class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.Adapter<BaseViewHolder>() {
@@ -66,7 +66,7 @@ class HomeContactAdapter(private val listener: ContactListener) : RecyclerView.A
 
         init {
             rootView.setOnClickListener {
-                listener.onContactClicked(contacts[adapterPosition]!!)
+                listener.onContactClicked(contacts[adapterPosition]!!, contactImage)
             }
         }
 

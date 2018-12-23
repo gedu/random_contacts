@@ -17,6 +17,10 @@ class HomeContactViewModel(
     val contactSearch
         get() = _contactSearch as LiveData<List<Contact>>
 
+    private val _favorites = MutableLiveData<List<Contact>>()
+    val favorites
+        get() = _favorites as LiveData<List<Contact>>
+
     val contacts = repository.listenResult
 
     fun fetchContacts() {
@@ -28,5 +32,9 @@ class HomeContactViewModel(
             val matchedContacts = contacts.value?.data?.filter { it.fullName.contains(query, true) }
             _contactSearch.value = matchedContacts
         }
+    }
+
+    fun fetchFavorites() {
+        _favorites.value = repository.fetchFavorites()
     }
 }

@@ -1,6 +1,7 @@
 package com.teddy.sweatcontacts.common.network
 
 import com.teddy.sweatcontacts.model.Contact
+import com.teddy.sweatcontacts.model.ContactBirth
 import com.teddy.sweatcontacts.model.ContactName
 import com.teddy.sweatcontacts.model.ContactPicture
 
@@ -11,9 +12,10 @@ class ContactResponse(
     private val name: ContactName,
     private val email: String,
     private val phone: String,
-    private val picture: ContactPicture
+    private val picture: ContactPicture,
+    private val dob: ContactBirth
 ) {
     fun toContact(): Contact {
-        return Contact(gender, name, email, phone, picture)
+        return Contact(gender, name, email, phone, picture, dob.age)
     }
 }
