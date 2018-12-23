@@ -1,141 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent" android:layout_height="match_parent"
         tools:context=".detail.DetailContactFragment">
-
-    <android.support.v7.widget.CardView
+    <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/contact_primary_card"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp">
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            tools:context=".detail.DetailContactFragment">
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-            <ImageView
-                    android:id="@+id/contact_image"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:transitionName="@string/contact_img_share_tag"
-                    android:contentDescription="@null"
-                    android:layout_height="match_parent"/>
+        <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:id="@+id/contact_primary_card"
+                app:layout_constraintWidth_percent="@fraction/contact_list_percent_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp">
 
             <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="16dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:id="@+id/contact_image"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:transitionName="@string/contact_img_share_tag"
+                        android:contentDescription="@null"
+                        android:layout_height="match_parent"/>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/full_name"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center_vertical"/>
+
+                    <TextView
+                            android:id="@+id/contact_name_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Teddy teddy"
+                            android:gravity="center_vertical"
+                            android:drawableEnd="@drawable/ic_female_gender"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/age"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center_vertical"/>
+
+                    <TextView
+                            android:id="@+id/contact_age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="28"
+                            android:gravity="center_vertical"/>
+
+                    <com.teddy.sweatcontacts.common.widget.ClickableLottieView
+                            android:id="@+id/contact_favorite_btn"
+                            android:layout_width="58dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:layout_marginEnd="-8dp"
+                            android:layout_marginTop="8dp"
+                            app:lottie_rawRes="@raw/like"/>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/contact_secondary_card"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/contact_primary_card"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                 <TextView
+                        android:id="@+id/contact_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/full_name"
-                        android:fontFamily="sans-serif-black"
-                        android:gravity="center_vertical"/>
-
-                <TextView
-                        android:id="@+id/contact_name_gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Teddy teddy"
-                        android:gravity="center_vertical"
-                        android:drawableEnd="@drawable/ic_female_gender"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/age"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="sans-serif-black"
-                        android:gravity="center_vertical"/>
-
-                <TextView
-                        android:id="@+id/contact_age"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="28"
-                        android:gravity="center_vertical"/>
-
-                <com.teddy.sweatcontacts.common.widget.ClickableLottieView
-                        android:id="@+id/contact_favorite_btn"
-                        android:layout_width="58dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:layout_marginEnd="-8dp"
-                        android:layout_marginTop="8dp"
-                        app:lottie_rawRes="@raw/like"/>
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-            android:id="@+id/contact_secondary_card"
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_primary_card"
-            android:layout_marginTop="16dp"
-            android:layout_height="wrap_content" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <TextView
-                    android:id="@+id/contact_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_email_black"
-                    tools:text="teddy@gmail.com"
-                    android:textSize="16sp"
-                    android:drawablePadding="16dp"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"/>
-
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal">
-
-                <TextView
-                        android:id="@+id/contact_phone"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_phone_black"
-                        tools:text="213123123123"
+                        android:drawableStart="@drawable/ic_email_black"
+                        tools:text="teddy@gmail.com"
                         android:textSize="16sp"
                         android:drawablePadding="16dp"
                         android:padding="16dp"
                         android:gravity="center_vertical"/>
 
-                <Button
-                        style="?attr/borderlessButtonStyle"
-                        android:id="@+id/contact_save_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/save"/>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/contact_phone"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_phone_black"
+                            tools:text="213123123123"
+                            android:textSize="16sp"
+                            android:drawablePadding="16dp"
+                            android:padding="16dp"
+                            android:gravity="center_vertical"/>
+
+                    <Button
+                            style="?attr/borderlessButtonStyle"
+                            android:id="@+id/contact_save_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/save"/>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-
-    </android.support.v7.widget.CardView>
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
