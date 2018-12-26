@@ -15,21 +15,24 @@
                 android:scaleType="centerCrop"
                 android:transitionName="@string/contact_img_share_tag"
                 android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/contact_name_gender"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
                 android:id="@+id/contact_name_gender"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 tool:text="Teddy Teddy"
-                android:layout_marginBottom="8dp"
+                android:gravity="end"
+                android:textColor="@android:color/white"
+                android:background="@color/transparent_black"
+                android:paddingBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
+                android:paddingEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"/>
+                android:paddingStart="8dp"/>
 
 
     </android.support.constraint.ConstraintLayout>
